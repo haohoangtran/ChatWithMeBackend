@@ -9,7 +9,7 @@ app.use(bodyParser.urlencoded({
 }));
 const RES_JSON = {status: false, message: ""};
 app.use("/api", require("./routers/api"));
-app.listen(process.env.port || 6969, () => {
+app.listen(process.env.PORT || 6969, () => {
     log("chay roi");
 });
 // app.use(function (req, res, next) {
