@@ -13,7 +13,7 @@ router.post("/login", (req, res) => {
             json.message = "Có lỗi xảy ra";
         } else if (!doc) {
             json.message = "Tên tài khoản hoặc mật khẩu không đúng";
-
+            json.status = false;
         } else json.token = Utils.getToken(doc.toObject())
         res.json(json);
     });
