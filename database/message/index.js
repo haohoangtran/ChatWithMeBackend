@@ -8,4 +8,4 @@ const messageSchema = new Schema({
     message: String
 });
 const Message = mongoose.model('Message', messageSchema);
-module.exports = User;
+module.exports = Message;

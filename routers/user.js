@@ -5,8 +5,8 @@ router.get("/", (req, res) => {
     res.send("hi")
 });
 router.post("/login", (req, res) => {
-    const {username, password} = req.body;
-    Database.login(username, Utils.md5(password), (err, doc) => {
+    const {username, password, token} = req.body;
+    Database.login(username, Utils.md5(password), token, (err, doc) => {
         let json = {status: true, message: "Xu ly thanh cong", token: ""};
         if (err) {
             json.status = false;
