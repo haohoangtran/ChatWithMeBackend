@@ -14,8 +14,6 @@ let verifyToken = (token) => {
         return null
     }
 };
-let a=verifyToken("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YzdiYzdjYTVhYjY0MzI2NzAyNTExYTIiLCJ1c2VybmFtZSI6InRodXlsb2kiLCJwYXNzd29yZCI6IjdhMjhkODU3MDAwYzVlZDE4MThmYmIxMGZlMjBjZjk1IiwiZGF0ZSI6IjIwMTktMDMtMDNUMTI6MjU6NDYuOTQ1WiIsIl9fdiI6MCwiaWF0IjoxNTUxNjE2MzY5LCJleHAiOjE1NTE3MDI3Njl9.6HuliC942KC9Zc97G8ueGSIz604FJOlzN_uuAtBR8KY")
-console.log(a)
 let getToken = (data) => {
     return jwt.sign({...data}, SHAKEY, {expiresIn: '24h'});
 };

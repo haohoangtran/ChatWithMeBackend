@@ -7,13 +7,14 @@ router.get("/", (req, res) => {
 router.post("/login", (req, res) => {
     const {username, password} = req.body;
     Database.login(username, Utils.md5(password), (err, doc) => {
-        let json={status: true, message: "Xu ly thanh cong",token:""};
-        if(err){
-            json.status=false;
-            json.message="Có lỗi xảy ra";
-        }else {
-            json.token=Utils.getToken(doc.toObject())
-        }
+        let json = {status: true, message: "Xu ly thanh cong", token: ""};
+        if (err) {
+            json.status = false;
+            json.message = "Có lỗi xảy ra";
+        } else if (!doc) {
+            json.message = "Tên tài khoản hoặc mật khẩu không đúng";
+
+        } else json.token = Utils.getToken(doc.toObject())
         res.json(json);
     });
 });
