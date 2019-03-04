@@ -14,7 +14,7 @@ router.post("/login", (req, res) => {
         } else if (!doc) {
             json.message = "Tên tài khoản hoặc mật khẩu không đúng";
             json.status = false;
-        } else json.token = Utils.getToken(doc.toObject())
+        } else json.token = Utils.getToken(doc.toObject());
         res.json(json);
     });
 });
