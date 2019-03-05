@@ -2,7 +2,7 @@ let crypto = require('crypto');
 const SHAKEY = "hihihaha%$%!#@!";
 const jwt = require('jsonwebtoken');
 const fs = require('fs');
-const FCM = require('FCM');
+const {FCM} = require('fcm-call');
 const path = require('path');
 const SERVER_FIREBASE_KEY = "AAAAn2z8EMU:APA91bGx2KDvCsKonMiu4HZzcm8-r40A5YH88o3M6UE3Z3u_gQtV4RweP5B2W9m14jf29pC76sVZYMYmwDZNOMY5LrvFD9jogdprob900Z6AyfKbDm2zx6NshGe7NAByyvdyift-L834"
 let md5 = data => {

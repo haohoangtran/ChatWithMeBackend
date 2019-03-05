@@ -3,10 +3,15 @@ const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
     username: {type: String, index: {unique: true}},
-    password:String,
+    password: String,
     date: {type: Date, default: Date.now},
     token: String,
-    messages: [{type: Schema.Types.ObjectId, ref: 'Message'}]
+    connected: {type: Schema.Types.ObjectId, ref: 'User'},
+    messages: [{
+        from: {type: Schema.Types.ObjectId, ref: 'User'},
+        date: {type: Date, default: Date.now},
+        message: String
+    }]
 });
 const User = mongoose.model('User', userSchema);
 module.exports = User;
