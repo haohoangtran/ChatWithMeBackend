@@ -12,6 +12,7 @@
     "body-parser": "^1.18.3",
     "express": "^4.16.4",
     "fcm-call": "^2.0.0",
+    "fcm-notification": "^2.0.0",
     "jsonwebtoken": "^8.5.0",
     "moment": "^2.24.0",
     "mongoose": "^5.4.16"

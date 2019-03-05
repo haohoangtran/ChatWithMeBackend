@@ -2,7 +2,8 @@ let crypto = require('crypto');
 const SHAKEY = "hihihaha%$%!#@!";
 const jwt = require('jsonwebtoken');
 const fs = require('fs');
-const {FCM} = require('fcm-call');
+const fcm = require('fcm-notification');
+const FCM = new fcm('./firebase_key.json');
 const path = require('path');
 const SERVER_FIREBASE_KEY = "AAAAn2z8EMU:APA91bGx2KDvCsKonMiu4HZzcm8-r40A5YH88o3M6UE3Z3u_gQtV4RweP5B2W9m14jf29pC76sVZYMYmwDZNOMY5LrvFD9jogdprob900Z6AyfKbDm2zx6NshGe7NAByyvdyift-L834"
 let md5 = data => {
@@ -119,18 +120,24 @@ function getNameFileInDir(dir, filename, ext) {
     }
 }
 
-function pushNotification(to, title, body, data) {
+function pushNotification(token, title, body, data) {
 
-    let message = {
-        to, data,
+
+    const message = {
+        data,
         notification: {
             title,
-            body,
-            "sound": true,
-            "alert": true,
-        }
+            body
+        }, token
     };
-    FCM.FCM(SERVER_FIREBASE_KEY, message);
+
+    FCM.send(message, function (err, response) {
+        if (err) {
+            console.log('error found', err);
+        } else {
+            console.log('response here', response);
+        }
+    })
 }
 module.exports = {
     md5, getToken, verifyToken, encode64, decode64, getParameterByName, getNameFileInDir, pushNotification

@@ -1,4 +1,5 @@
 const Database = require('./database')
+const Utils = require('./utils')
 
 class Queue {
 
@@ -11,7 +12,19 @@ class Queue {
                 Database.updateConnected(user1, user2, () => {
                     console.log("connect ", user2, " ", user1)
                     //TODO: thông báo kết nối thành công!
-                })
+                    Database.findUser(user1, (u) => {
+                        Utils.pushNotification(u.token, "Chú ý", "Người lạ đã tham gia cuộc trò truyện! ", {
+                            title: "Chú ý",
+                            body: "Người lạ đã tham gia cuộc trò truyện"
+                        })
+                    });
+                    Database.findUser(user2, (u) => {
+                        Utils.pushNotification(u.token, "Chú ý", "Người lạ đã tham gia cuộc trò truyện! ", {
+                            title: "Chú ý",
+                            body: "Người lạ đã tham gia cuộc trò truyện"
+                        })
+                    });
+                });
             }
         }, 1000)
     }
@@ -21,5 +34,6 @@ class Queue {
             this.QUEUE_WAIT_CHAT.push(id);
     }
 }
+
 
 module.exports = new Queue()
