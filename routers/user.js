@@ -17,7 +17,7 @@ router.post("/login", (req, res) => {
         } else {
             let user = doc.toObject();
             delete user.messages;
-            json.token = Utils.getToken(user)
+            json.token = Utils.getToken(user);
         }
         res.json(json);
     });

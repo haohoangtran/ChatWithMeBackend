@@ -45,7 +45,7 @@ router.get('/goqueue', (req, res) => {
 router.post("/send", (req, res) => {
     let user = verifyToken(req.headers.usertoken);
     let {message} = req.body;
-    if (!message || message.trim()) {
+    if (!message || !message.trim()) {
         return res.json({status: false, message: "Nội dung trống"})
     }
     message = message.trim();
