@@ -108,7 +108,7 @@ class Database {
     }
 
     getMessage(_id, callback) {
-        User.findOneAndUpdate({_id}, (err, doc) => {
+        User.findOne({_id}, (err, doc) => {
             callback(doc ? doc.messages : [])
         })
         // .populate('messages')
