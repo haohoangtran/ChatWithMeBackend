@@ -24,7 +24,8 @@ class Database {
                     $push: {
                         messages: {
                             from: user,
-                            message: CONFIG.DEFAULT_HELP["/help"]
+                            message: CONFIG.DEFAULT_HELP["/help"],
+                            system: true,
                         }
                     }
                 }, (err, doc) => {
@@ -46,12 +47,11 @@ class Database {
             $push: {
                 messages: {
                     from: mongoose.Types.ObjectId(from),
-                    message: "Đang tìm kiếm, vui lòng đợi..."
+                    message: "Đang tìm kiếm, vui lòng đợi...",
+                    system: true
                 }
             }
-        }, {new: true}, () => {
-            callback
-        });
+        }, {new: true}, callback);
     }
 
     addMessage(from, to, message, callback) {
@@ -92,7 +92,8 @@ class Database {
             connected: null, $push: {
                 messages: {
                     from: mongoose.Types.ObjectId(from),
-                    message: "Cuộc trò truyện đã kết thúc"
+                    message: "Cuộc trò truyện đã kết thúc",
+                    system: true
                 }
             }
         }, {new: true}, () => {
@@ -100,7 +101,8 @@ class Database {
                 connected: null, push: {
                     messages: {
                         from: mongoose.Types.ObjectId(from),
-                        message: "Cuộc trò truyện đã kết thúc"
+                        message: "Cuộc trò truyện đã kết thúc",
+                        system: true
                     }
                 }
             }, {new: true}, callback);
@@ -109,7 +111,7 @@ class Database {
 
     getMessage(_id, callback) {
         User.findOne({_id}, (err, doc) => {
-            callback(doc ? doc.messages : [])
+            callback(doc ? doc.messages.reverse() : [])
         })
         // .populate('messages')
         // .exec(function (err, doc) {

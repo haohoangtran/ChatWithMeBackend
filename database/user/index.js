@@ -10,7 +10,8 @@ const userSchema = new Schema({
     messages: [{
         from: {type: Schema.Types.ObjectId, ref: 'User'},
         date: {type: Date, default: Date.now},
-        message: String
+        message: String,
+        system: {type: Date, default: false}
     }]
 });
 const User = mongoose.model('User', userSchema);

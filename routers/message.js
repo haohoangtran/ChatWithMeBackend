@@ -5,8 +5,11 @@ const Database = require("../database");
 const {getToken, verifyToken} = require("../utils");
 router.get("/", (req, res) => {
     let user = verifyToken(req.headers.usertoken);
+    if (!user || !user._id) {
+        res.json({status: false, header: req.headers})
+    }
     Database.getMessage(user._id, (msg) => {
-        res.json(msg);
+        res.json({status: true, iduser: user._id, msg});
     });
 });
 router.get("/endchat", (req, res) => {
