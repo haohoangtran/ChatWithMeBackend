@@ -23,7 +23,7 @@ class Database {
                 {
                     $push: {
                         messages: {
-                            from: user,
+                            from: mongoose.Types.ObjectId(user._id),
                             message: CONFIG.DEFAULT_HELP["/help"],
                             system: true,
                         }
@@ -37,8 +37,26 @@ class Database {
     }
 
     updateConnected(from, to, callback) {
-        User.findOneAndUpdate({_id: from}, {connected: mongoose.Types.ObjectId(to)}, {new: true}, () => {
-            User.findOneAndUpdate({_id: to}, {connected: mongoose.Types.ObjectId(from)}, {new: true}, callback);
+        User.findOneAndUpdate({_id: from}, {
+            connected: mongoose.Types.ObjectId(to),
+            $push: {
+                messages: {
+                    from: mongoose.Types.ObjectId(from),
+                    message: "Người lạ đã tham gia cuộc trò truyện!",
+                    system: true
+                }
+            }
+        }, {new: true}, () => {
+            User.findOneAndUpdate({_id: to}, {
+                connected: mongoose.Types.ObjectId(from),
+                $push: {
+                    messages: {
+                        from: mongoose.Types.ObjectId(to),
+                        message: "Người lạ đã tham gia cuộc trò truyện!",
+                        system: true
+                    }
+                }
+            }, {new: true}, callback);
         });
     }
 
@@ -92,16 +110,16 @@ class Database {
             connected: null, $push: {
                 messages: {
                     from: mongoose.Types.ObjectId(from),
-                    message: "Cuộc trò truyện đã kết thúc",
+                    message: "Cuộc trò truyện đã kết thúc, /start để bắt đầu",
                     system: true
                 }
             }
         }, {new: true}, () => {
             User.findOneAndUpdate({_id: to}, {
-                connected: null, push: {
+                connected: null, $push: {
                     messages: {
                         from: mongoose.Types.ObjectId(from),
-                        message: "Cuộc trò truyện đã kết thúc",
+                        message: "Cuộc trò truyện đã kết thúc, /start để bắt đầu",
                         system: true
                     }
                 }

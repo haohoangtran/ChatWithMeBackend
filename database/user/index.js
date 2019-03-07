@@ -11,7 +11,7 @@ const userSchema = new Schema({
         from: {type: Schema.Types.ObjectId, ref: 'User'},
         date: {type: Date, default: Date.now},
         message: String,
-        system: {type: Date, default: false}
+        system: {type: Boolean, default: false}
     }]
 });
 const User = mongoose.model('User', userSchema);

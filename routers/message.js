@@ -18,15 +18,15 @@ router.get("/endchat", (req, res) => {
         Database.endChat(u._id, u.connected._id, () => {
             res.json({status: true, message: "OK"});
             Database.findUser(user._id, (u) => {
-                Utils.pushNotification(u.token, "Thông báo", message, {
+                Utils.pushNotification(u.token, "Thông báo", "Cuộc trò truyện đã kết thúc", {
                     title: "Người lạ",
-                    body: "Cuộc trò truyện đã kết thúc, ấn /end để bắt đầu"
+                    body: "Cuộc trò truyện đã kết thúc, ấn /start để bắt đầu"
                 });
             });
-            Database.findUser(u._id, (u) => {
-                Utils.pushNotification(u.token, "Thông báo", message, {
+            Database.findUser(u.connected._id, (u) => {
+                Utils.pushNotification(u.token, "Thông báo", "Cuộc trò truyện đã kết thúc", {
                     title: "Người lạ",
-                    body: "Cuộc trò truyện đã kết thúc, ấn /end để bắt đầu"
+                    body: "Cuộc trò truyện đã kết thúc, ấn /start để bắt đầu"
                 });
             });
         })
