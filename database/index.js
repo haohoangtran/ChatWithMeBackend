@@ -41,6 +41,19 @@ class Database {
         });
     }
 
+    goqueue(from, callback) {
+        User.findOneAndUpdate({_id: from}, {
+            $push: {
+                messages: {
+                    from: mongoose.Types.ObjectId(from),
+                    message: "Đang tìm kiếm, vui lòng đợi..."
+                }
+            }
+        }, {new: true}, () => {
+            callback
+        });
+    }
+
     addMessage(from, to, message, callback) {
         User.update(
             {_id: from},
@@ -75,8 +88,22 @@ class Database {
     }
 
     endChat(from, to, callback) {
-        User.findOneAndUpdate({_id: from}, {connected: null}, {new: true}, () => {
-            User.findOneAndUpdate({_id: to}, {connected: null}, {new: true}, callback);
+        User.findOneAndUpdate({_id: from}, {
+            connected: null, $push: {
+                messages: {
+                    from: mongoose.Types.ObjectId(from),
+                    message: "Cuộc trò truyện đã kết thúc"
+                }
+            }
+        }, {new: true}, () => {
+            User.findOneAndUpdate({_id: to}, {
+                connected: null, push: {
+                    messages: {
+                        from: mongoose.Types.ObjectId(from),
+                        message: "Cuộc trò truyện đã kết thúc"
+                    }
+                }
+            }, {new: true}, callback);
         });
     }
 

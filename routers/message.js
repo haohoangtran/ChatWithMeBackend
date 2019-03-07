@@ -1,10 +1,10 @@
 const router = require('express').Router();
 const Queue = require("../queue");
-const Utils = require('../utils')
+const Utils = require('../utils');
 const Database = require("../database");
-const {getToken, verifyToken} = require("../utils")
+const {getToken, verifyToken} = require("../utils");
 router.get("/", (req, res) => {
-    let user = verifyToken(req.headers.usertoken)
+    let user = verifyToken(req.headers.usertoken);
     Database.getMessage(user._id, (msg) => {
         res.json(msg);
     });
@@ -36,7 +36,9 @@ router.get('/goqueue', (req, res) => {
             res.json({status: false, message: "Bạn vui lòng end cuộc trò truyện"});
         } else {
             Queue.addMember(user._id);
-            res.json({status: true, message: "Thành công"});
+            Database.goqueue(user._id, () => {
+                res.json({status: true, message: "Thành công"});
+            });
         }
     })
 
@@ -64,7 +66,6 @@ router.post("/send", (req, res) => {
             } else {
                 res.json({status: false, message: "Cuộc trò truyện đã kết thúc, /end để bắt đầu."})
             }
-
         }
     })
 })
